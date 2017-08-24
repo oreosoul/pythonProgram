@@ -4,7 +4,6 @@ from pygame.sprite import Sprite
 
 class Alien(Sprite):
     """单个外星人的类"""
-
     def __init__(self, ai_settings, screen):
         """初始化外星人"""
         super(Alien, self).__init__()

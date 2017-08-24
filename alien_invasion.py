@@ -3,7 +3,6 @@ import pygame
 from pygame.sprite import Group
 from settings import Settings
 from ship import Ship
-from alien import Alien
 import game_functions as gf
 
 def run_game():
@@ -25,7 +24,7 @@ def run_game():
 
     #创建一个外星人
     aliens = Group()
-    gf.create_fleet(ai_settings, screen, aliens)
+    gf.create_fleet(ai_settings, screen, ship, aliens)
 
     #The main loop
     while True:

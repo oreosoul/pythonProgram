@@ -9,7 +9,7 @@ class Ship():
         self.ai_settings = ai_settings
 
         # 加载飞船图像并获取其外接矩形
-        self.image = pygame.image.load('images/ship.png').convert_alpha()
+        self.image = pygame.image.load('images/ship.png')
         self.width, self.height = self.image.get_size()
         #设置图片大小
         self.image = pygame.transform.smoothscale(self.image, (self.width//10, self.height//10))
