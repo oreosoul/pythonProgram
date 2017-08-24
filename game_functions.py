@@ -4,7 +4,7 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 
-def check_keydown_event(event,ai_settings,screen, ship, bullets):
+def check_keydown_event(event, ai_settings, screen, ship, bullets):
     """响应按键"""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
@@ -31,7 +31,7 @@ def check_keyup_event(event, ship):
     elif event.key == pygame.K_DOWN:
         ship.moving_down = False
 
-def fire_bullet(ai_settings, screen, ship,  bullets):
+def fire_bullet(ai_settings, screen, ship, bullets):
     """如果子弹未到达限制，发射！"""
     #创建一颗子弹
     if len(bullets) < ai_settings.bullet_allowed:
