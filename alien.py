@@ -34,7 +34,7 @@ class Alien(Sprite):
         if self.rect.right >= screen_rect.right:
             return True
         elif self.rect.left <= 0:
-            return True
+            return True 
 
     def update(self):
         """向右移动外星人"""
