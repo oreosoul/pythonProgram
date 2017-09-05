@@ -34,13 +34,16 @@ def run_game():
     while True:
         #检查玩家输入
         gf.check_events(ai_settings, screen, ship, bullets)
-        #更新飞船
-        ship.update()
-        #更新子弹
-        gf.update_bullet(ai_settings, screen, ship, aliens, bullets)
-        gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
+
+        #游戏主体需要启动方可运行
+        if stats.game_active:
+            #更新飞船
+            ship.update()
+            #更新子弹
+            gf.update_bullet(ai_settings, screen, ship, aliens, bullets)
+            gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
+
         #重绘屏幕
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 run_game()
-
