@@ -5,6 +5,8 @@ from settings import Settings
 from game_states import GameStates
 from ship import Ship
 from button import Button
+from game_states import GameStates
+from scoreboard import Scoreboard
 import game_functions as gf
 
 def run_game():
@@ -34,6 +36,10 @@ def run_game():
     aliens = Group()
     gf.create_fleet(ai_settings, screen, ship, aliens)
 
+    # 创建记分牌
+    stats = GameStates(ai_settings)
+    sb = Scoreboard(ai_settings, screen, stats)
+
     #The main loop
     while True:
         #检查玩家输入
@@ -44,10 +50,10 @@ def run_game():
             #更新飞船
             ship.update()
             #更新子弹
-            gf.update_bullet(ai_settings, screen, ship, aliens, bullets)
+            gf.update_bullet(ai_settings, screen, stats, sb, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
         #重绘屏幕
-        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button)
 
 run_game()

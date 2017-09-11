@@ -54,7 +54,7 @@ def check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
     """更新屏幕上的图像，并切换至新屏幕"""
     #每次循环时都要重绘屏幕
     screen.fill(ai_settings.bg_color)
@@ -65,7 +65,8 @@ def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button
     ship.blitme()
     #绘制外星人
     aliens.draw(screen)
-
+    # 显示得分
+    sb.show_score()
     # 如果游戏处于非活动状态，就绘制Play按钮
     if not stats.game_active:
         play_button.draw_button()
@@ -73,8 +74,9 @@ def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button
     #Let the recently painting screen visible
     pygame.display.flip()
 
-def update_bullet(ai_settings, screen, ship, aliens, bullets):
+def update_bullet(ai_settings, screen, stats, sb, ship, aliens, bullets):
     """更新屏幕的子弹"""
+    check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets)
     bullets.update()
     #删除消失的子弹
     for bullet in bullets.copy():
@@ -137,11 +139,18 @@ def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
     # 检查是否有外星人到达屏幕底端
     check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
 
-def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets):
     """相应子弹碰撞"""
     # 检查是否击中外星人
     # 如果是则删除相应子弹和外星人
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if collisions:
+        for aliens in collisions.values():
+            stats.score += ai_settings.alien_point * len(aliens)
+            sb.prep_score()
+        check_high_score(stats, sb)
+
     if len(aliens) == 0:
         # 删除现有所有子弹并创建新的外星人群
         bullets.empty()
@@ -196,4 +205,9 @@ def start_game(ai_settings, screen, stats, ship, aliens, bullets):
     # 创建一群新的外星人，并让飞船居中
     create_fleet(ai_settings, screen, ship, aliens)
     ship.center_ship()
-    
+
+def check_high_score(stats, sb):
+    """检查最高分"""
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
