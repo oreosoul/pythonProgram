@@ -43,7 +43,7 @@ def run_game():
     #The main loop
     while True:
         #检查玩家输入
-        gf.check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
+        gf.check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets)
 
         #游戏主体需要启动方可运行
         if stats.game_active:
