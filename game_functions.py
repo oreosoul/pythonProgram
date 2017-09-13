@@ -162,7 +162,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
 
 def ship_hit(ai_settings, stats, sb, screen, ship, aliens, bullets):
     """飞船被撞击后的执行函数"""
-    if stats.ships_left > 0:
+    if stats.ships_left > 1:
         #将 ships_left - 1
         stats.ships_left -= 1
         #更新记分牌
@@ -176,6 +176,9 @@ def ship_hit(ai_settings, stats, sb, screen, ship, aliens, bullets):
         #暂停
         sleep(0.5)
     else:
+        #更新记分牌
+        sb.prep_ships()
+        
         stats.game_active = False
         #显示光标
         pygame.mouse.set_visible(True)

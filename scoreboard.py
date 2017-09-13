@@ -61,8 +61,8 @@ class Scoreboard():
     def prep_ships(self):
         """准备飞船"""
         self.ships = Group()
-        for ship_number in range(self.stats.ship_left):
+        for ship_number in range(self.stats.ships_left):
             ship = Ship(self.ai_settings, self.screen)
-            ship.rect.x = 10 + ship_number * ship.rect.width
+            ship.rect.x = 10 + ship_number * (20 + ship.rect.width)
             ship.rect.y = 10
             self.ships.add(ship)
