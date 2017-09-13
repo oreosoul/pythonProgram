@@ -5,6 +5,23 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 
+def write_high_score(stats):
+    """写入最高分数"""
+    high_score_file = open('high_score.txt', 'w')
+    high_score_file.write(str(stats.high_score))
+    high_score_file.close()
+
+def read_high_score(stats):
+    """读取最高分数"""
+    high_score_file = open('high_score.txt', 'r')
+    stats.high_score = int(high_score_file.read())
+    high_score_file.close()
+
+def game_exit(stats):
+    """退出游戏"""
+    write_high_score(stats)
+    sys.exit()
+
 def check_keydown_event(event, ai_settings, screen, ship, bullets, stats, sb, aliens):
     """响应按键"""
     if event.key == pygame.K_RIGHT:
@@ -18,7 +35,7 @@ def check_keydown_event(event, ai_settings, screen, ship, bullets, stats, sb, al
     elif event.key == pygame.K_SPACE:
         fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_q:
-        sys.exit()
+        game_exit(stats)
     elif event.key == pygame.K_p:
         if not stats.game_active:
             start_game(ai_settings, screen, stats, sb, ship, aliens, bullets)
@@ -45,7 +62,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
     """相应按键和鼠标事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            sys.exit()
+            game_exit(stats)
         elif event.type == pygame.KEYDOWN:
             check_keydown_event(event, ai_settings, screen, ship, bullets, stats, sb, aliens)
         elif event.type == pygame.KEYUP:
@@ -176,9 +193,11 @@ def ship_hit(ai_settings, stats, sb, screen, ship, aliens, bullets):
         #暂停
         sleep(0.5)
     else:
+        #将 ships_left - 1
+        stats.ships_left -= 1
         #更新记分牌
         sb.prep_ships()
-        
+
         stats.game_active = False
         #显示光标
         pygame.mouse.set_visible(True)

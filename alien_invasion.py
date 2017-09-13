@@ -5,7 +5,6 @@ from settings import Settings
 from game_states import GameStates
 from ship import Ship
 from button import Button
-from game_states import GameStates
 from scoreboard import Scoreboard
 import game_functions as gf
 
@@ -25,6 +24,7 @@ def run_game():
 
     #创建一个用于存储游戏统计信息的实例
     stats = GameStates(ai_settings)
+    sb = Scoreboard(ai_settings, screen, stats)
 
     #创建一个飞船
     ship = Ship(ai_settings, screen)
@@ -36,9 +36,9 @@ def run_game():
     aliens = Group()
     gf.create_fleet(ai_settings, screen, ship, aliens)
 
-    # 创建记分牌
-    stats = GameStates(ai_settings)
-    sb = Scoreboard(ai_settings, screen, stats)
+    #读取历史最高分
+    gf.read_high_score(stats)
+    sb.prep_high_score()
 
     #The main loop
     while True:
